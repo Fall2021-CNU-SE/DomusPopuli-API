@@ -7,10 +7,10 @@ import (
     "encoding/json"
     "os"
 
-    "github.com/NamSoGong/DomusPopuli-API/domain"
+    "github.com/NamSoGong/DomusPopuli-API/domain/coords"
 )
 
-func AddressToCoordinate(addr string) (*domain.Coordinate_t, error) {
+func AddressToCoordinate(addr string) (*coords.Coordinate_t, error) {
 
     // Generate URL
     apiKey := os.Getenv("KAKAO_AK")
@@ -36,7 +36,7 @@ func AddressToCoordinate(addr string) (*domain.Coordinate_t, error) {
 
     // Parse JSON
     dec := json.NewDecoder(resp.Body)
-    jsonBody := domain.Response_t{}
+    jsonBody := coords.Response_t{}
 
     dec.Decode(&jsonBody)
 
@@ -44,7 +44,7 @@ func AddressToCoordinate(addr string) (*domain.Coordinate_t, error) {
         return nil, errors.New("Invalid address")
     }
 
-    return &domain.Coordinate_t{
+    return &coords.Coordinate_t{
         Long: jsonBody.Documents[0].X,
         Lat: jsonBody.Documents[0].Y,
     }, nil

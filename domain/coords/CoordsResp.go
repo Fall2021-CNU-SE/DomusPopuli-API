@@ -1,4 +1,4 @@
-package domain
+package coords
 
 type Meta_t struct {
     TotalCount      int     `json:"total_count"`        // 검색된 문서 수
