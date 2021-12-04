@@ -2,15 +2,17 @@ package tests
 
 import (
     "testing"
+    "fmt"
 
     "github.com/NamSoGong/DomusPopuli-API/service"
 )
 
 func TestAddressToCoordinate(t *testing.T) {
-    coor, err := service.AddressToCoordinate("문화원로 80")
+    coords, err := service.AddressToCoordinate("문화원로 80")
     if err != nil {
-        t.Error(err)
+        panic(err)
     }
 
-    t.Log("Longitude " + coor.Long + " Latitude " + coor.Lat)
+    fmt.Println(coords.Long)
+    fmt.Println(coords.Lat)
 }
