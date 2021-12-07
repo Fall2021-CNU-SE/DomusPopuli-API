@@ -10,7 +10,8 @@ import (
 func TestAddressToCoordinate(t *testing.T) {
     coords, err := service.AddressToCoordinate("문화원로 80")
     if err != nil {
-        panic(err)
+        t.Error(err)
+        return
     }
 
     fmt.Println(coords.Long)
