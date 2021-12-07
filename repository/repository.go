@@ -3,6 +3,8 @@ package repository
 import (
     "gorm.io/driver/postgres"
     "gorm.io/gorm"
+
+    . "github.com/NamSoGong/DomusPopuli-API/domain/db"
 )
 
 var db *gorm.DB = nil
@@ -17,11 +19,15 @@ func getDB() (*gorm.DB, error) {
         if err != nil { return nil, err }
 
         // Clear Table
-        err = db.Migrator().DropTable()
+        err = db.Migrator().DropTable(&User_t{})
+        if err != nil { return nil, err }
+        err = db.Migrator().DropTable(&House_t{})
         if err != nil { return nil, err }
 
         // Init Table
-        err = db.AutoMigrate()
+        err = db.AutoMigrate(&User_t{})
+        if err != nil { return nil, err }
+        err = db.AutoMigrate(&House_t{})
         if err != nil { return nil, err }
     }
 
