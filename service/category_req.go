@@ -9,9 +9,10 @@ import (
 	"os"
 
 	"github.com/NamSoGong/DomusPopuli-API/domain/category"
+	"github.com/NamSoGong/DomusPopuli-API/domain/coords"
 )
 
-func CategorySearch(long, lat, cgroup, radius string) (*category.Response_t, error) {
+func CategorySearch(coor coords.Coordinate_t, cgroup, radius string) (*category.Response_t, error) {
 
     // Get Kakao API key
     apiKey := os.Getenv("KAKAO_AK")
@@ -22,7 +23,7 @@ func CategorySearch(long, lat, cgroup, radius string) (*category.Response_t, err
     // Generate URL
     cgroupKey := url.QueryEscape("category_group_code")
     reqUrl := "https://dapi.kakao.com/v2/local/search/category.json"
-    reqUrl += fmt.Sprintf("?x=%s&y=%s&%s=%s&radius=%s", long, lat, cgroupKey, cgroup, radius)
+    reqUrl += fmt.Sprintf("?x=%s&y=%s&%s=%s&radius=%s", coor.Long, coor.Lat, cgroupKey, cgroup, radius)
 
     // Generate Request
     req, err := http.NewRequest("GET", reqUrl, nil)
@@ -35,7 +36,7 @@ func CategorySearch(long, lat, cgroup, radius string) (*category.Response_t, err
     if err != nil { return nil, err }
     defer resp.Body.Close()
 
-    if resp.StatusCode >= 400 {
+    if resp.StatusCode != http.StatusOK {
         return nil, errors.New("Request responed with " + resp.Status)
     }
 
