@@ -13,15 +13,17 @@ func NavigationSearch(src, dst coords.Coordinate_t) (*navigation.Response_t, err
     // Generate URL
     reqUrl := "https://apis-navi.kakaomobility.com/v1/directions"
     reqUrl += fmt.Sprintf("?origin=%s,%s&destination=%s,%s", src.Long, src.Lat, dst.Long, dst.Lat)
-    reqUrl += "&waypoints=&priority=RECOMMEND&car_fuel=&car_hipass=&alternatives=&road_details="
 
-    reader, err := KakaoMAPIGet(reqUrl)
+    fmt.Println(reqUrl)
+
+    bodyReader, err := KakaoMAPIGet(reqUrl)
     if err != nil {
         return nil, err
     }
+    defer bodyReader.Close()
 
     // Parse JSON
-    dec := json.NewDecoder(reader)
+    dec := json.NewDecoder(bodyReader)
     jsonBody := navigation.Response_t{}
 
     dec.Decode(&jsonBody)
