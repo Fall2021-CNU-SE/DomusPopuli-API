@@ -2,12 +2,12 @@ package service
 
 import (
     "errors"
+    "io"
     "net/http"
     "os"
-    "io"
 )
 
-func KakaoMAPIGet(reqUrl string) (io.Reader, error) {
+func KakaoMAPIGet(reqUrl string) (io.ReadCloser, error) {
 
     // Get Kakao API key
     apiKey := os.Getenv("KAKAO_AK")
@@ -24,7 +24,6 @@ func KakaoMAPIGet(reqUrl string) (io.Reader, error) {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil { return nil, err }
-    defer resp.Body.Close()
 
     if resp.StatusCode != http.StatusOK {
         return nil, errors.New("Request responed with " + resp.Status)

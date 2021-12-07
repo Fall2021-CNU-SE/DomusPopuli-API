@@ -20,6 +20,7 @@ func CategorySearch(coor coords.Coordinate_t, cgroup, radius string) (*category.
     if err != nil {
         return nil, err
     }
+    defer bodyReader.Close()
 
     // Parse JSON
     dec := json.NewDecoder(bodyReader)

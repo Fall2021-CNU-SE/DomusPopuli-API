@@ -15,6 +15,7 @@ func AddressToCoordinate(addr string) (*coords.Coordinate_t, error) {
     if err != nil {
         return  nil, err
     }
+    defer bodyReader.Close()
 
     // Parse JSON
     dec := json.NewDecoder(bodyReader)
