@@ -1,47 +1,29 @@
 package service
 
 import (
-	"errors"
-	"net/http"
-    "net/url"
     "encoding/json"
-    "os"
+    "errors"
+    "net/url"
 
     "github.com/NamSoGong/DomusPopuli-API/domain/coords"
 )
 
 func AddressToCoordinate(addr string) (*coords.Coordinate_t, error) {
+    reqUrl := `https://dapi.kakao.com/v2/local/search/address.json?query=` + url.QueryEscape(addr)
 
-    // Generate URL
-    apiKey := os.Getenv("KAKAO_AK")
-    if apiKey == "" {
-        return nil, errors.New("Do 'export KAKAO_AK={Kakao REST API Key}'")
-    }
-    url := `https://dapi.kakao.com/v2/local/search/address.json?query=` + url.QueryEscape(addr)
-
-    // Generate Request
-    req, err := http.NewRequest("GET", url, nil)
-    if err != nil { return nil, err }
-    req.Header.Add("Authorization", "KakaoAK " + apiKey)
-
-    // Send Request
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil { return nil, err }
-    defer resp.Body.Close()
-
-    if resp.StatusCode >= 400 {
-        return nil, errors.New("Request responed with " + resp.Status)
+    bodyReader, err := KakaoMAPIGet(reqUrl)
+    if err != nil {
+        return  nil, err
     }
 
     // Parse JSON
-    dec := json.NewDecoder(resp.Body)
+    dec := json.NewDecoder(bodyReader)
     jsonBody := coords.Response_t{}
 
     dec.Decode(&jsonBody)
 
     if jsonBody.Meta.TotalCount < 1 || len(jsonBody.Documents) < 1 {
-        return nil, errors.New("Invalid address")
+        return nil, errors.New("Invalid Address")
     }
 
     return &coords.Coordinate_t{

@@ -14,6 +14,5 @@ func TestAddressToCoordinate(t *testing.T) {
         return
     }
 
-    fmt.Println(coords.Long)
-    fmt.Println(coords.Lat)
+    fmt.Println(*coords)
 }

@@ -1,47 +1,28 @@
 package service
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"net/http"
-	"net/url"
-	"os"
+    "encoding/json"
+    "errors"
+    "fmt"
+    "net/url"
 
-	"github.com/NamSoGong/DomusPopuli-API/domain/category"
-	"github.com/NamSoGong/DomusPopuli-API/domain/coords"
+    "github.com/NamSoGong/DomusPopuli-API/domain/category"
+    "github.com/NamSoGong/DomusPopuli-API/domain/coords"
 )
 
 func CategorySearch(coor coords.Coordinate_t, cgroup, radius string) (*category.Response_t, error) {
-
-    // Get Kakao API key
-    apiKey := os.Getenv("KAKAO_AK")
-    if apiKey == "" {
-        return nil, errors.New("Do 'export KAKAO_AK={Kakao REST API Key}'")
-    }
-
     // Generate URL
     cgroupKey := url.QueryEscape("category_group_code")
     reqUrl := "https://dapi.kakao.com/v2/local/search/category.json"
     reqUrl += fmt.Sprintf("?x=%s&y=%s&%s=%s&radius=%s", coor.Long, coor.Lat, cgroupKey, cgroup, radius)
 
-    // Generate Request
-    req, err := http.NewRequest("GET", reqUrl, nil)
-    if err != nil { return nil, err }
-    req.Header.Add("Authorization", "KakaoAK " + apiKey)
-
-    // Send Request
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil { return nil, err }
-    defer resp.Body.Close()
-
-    if resp.StatusCode != http.StatusOK {
-        return nil, errors.New("Request responed with " + resp.Status)
+    bodyReader, err := KakaoMAPIGet(reqUrl)
+    if err != nil {
+        return nil, err
     }
 
     // Parse JSON
-    dec := json.NewDecoder(resp.Body)
+    dec := json.NewDecoder(bodyReader)
     jsonBody := category.Response_t{}
 
     dec.Decode(&jsonBody)
@@ -50,7 +31,5 @@ func CategorySearch(coor coords.Coordinate_t, cgroup, radius string) (*category.
         return nil, errors.New("Invalid address")
     }
 
-    fmt.Println(jsonBody)
-
-    return nil, nil
+    return &jsonBody, nil
 }
