@@ -5,10 +5,11 @@ import (
     "errors"
     "net/url"
 
+    "github.com/NamSoGong/DomusPopuli-API/domain"
     "github.com/NamSoGong/DomusPopuli-API/domain/coords"
 )
 
-func AddressToCoordinate(addr string) (*coords.Coordinate_t, error) {
+func AddressToCoordinate(addr string) (*domain.Coordinate_t, error) {
     reqUrl := `https://dapi.kakao.com/v2/local/search/address.json?query=` + url.QueryEscape(addr)
 
     bodyReader, err := KakaoMAPIGet(reqUrl)
@@ -27,7 +28,7 @@ func AddressToCoordinate(addr string) (*coords.Coordinate_t, error) {
         return nil, errors.New("Invalid Address")
     }
 
-    return &coords.Coordinate_t{
+    return &domain.Coordinate_t{
         Long: jsonBody.Documents[0].X,
         Lat: jsonBody.Documents[0].Y,
     }, nil

@@ -52,8 +52,3 @@ type Response_t struct {
     Meta        Meta_t              `json:"meta"`
     Documents   []Document_t        `json:"documents"`
 }
-
-type Coordinate_t struct {
-    Long        string
-    Lat         string
-}

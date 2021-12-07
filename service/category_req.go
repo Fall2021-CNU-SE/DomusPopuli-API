@@ -7,10 +7,10 @@ import (
     "net/url"
 
     "github.com/NamSoGong/DomusPopuli-API/domain/category"
-    "github.com/NamSoGong/DomusPopuli-API/domain/coords"
+    "github.com/NamSoGong/DomusPopuli-API/domain"
 )
 
-func CategorySearch(coor coords.Coordinate_t, cgroup, radius string) (*category.Response_t, error) {
+func CategorySearch(coor domain.Coordinate_t, cgroup, radius string) (*category.Response_t, error) {
     // Generate URL
     cgroupKey := url.QueryEscape("category_group_code")
     reqUrl := "https://dapi.kakao.com/v2/local/search/category.json"

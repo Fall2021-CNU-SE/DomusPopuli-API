@@ -5,11 +5,11 @@ import (
     "errors"
     "fmt"
 
-    "github.com/NamSoGong/DomusPopuli-API/domain/coords"
+    "github.com/NamSoGong/DomusPopuli-API/domain"
     "github.com/NamSoGong/DomusPopuli-API/domain/navigation"
 )
 
-func NavigationSearch(src, dst coords.Coordinate_t) (*navigation.Response_t, error) {
+func NavigationSearch(src, dst domain.Coordinate_t) (*navigation.Response_t, error) {
     // Generate URL
     reqUrl := "https://apis-navi.kakaomobility.com/v1/directions"
     reqUrl += fmt.Sprintf("?origin=%s,%s&destination=%s,%s", src.Long, src.Lat, dst.Long, dst.Lat)
