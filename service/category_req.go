@@ -29,7 +29,7 @@ func CategorySearch(coor coords.Coordinate_t, cgroup, radius string) (*category.
     dec.Decode(&jsonBody)
 
     if jsonBody.Meta.TotalCount < 1 || len(jsonBody.Documents) < 1 {
-        return nil, errors.New("Invalid address")
+        return nil, errors.New("Found Nothing")
     }
 
     return &jsonBody, nil

@@ -14,8 +14,6 @@ func NavigationSearch(src, dst coords.Coordinate_t) (*navigation.Response_t, err
     reqUrl := "https://apis-navi.kakaomobility.com/v1/directions"
     reqUrl += fmt.Sprintf("?origin=%s,%s&destination=%s,%s", src.Long, src.Lat, dst.Long, dst.Lat)
 
-    fmt.Println(reqUrl)
-
     bodyReader, err := KakaoMAPIGet(reqUrl)
     if err != nil {
         return nil, err
