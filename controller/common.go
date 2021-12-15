@@ -8,7 +8,11 @@ import (
     "github.com/gin-gonic/gin"
 )
 
-func httpErrorCode(err error) int {
+func httpStatusCode(err error) int {
+    if err == nil {
+        return http.StatusOK
+    }
+
     if errors.Is(err, exceptions.UserNotFound) {
         return http.StatusUnauthorized
     }
@@ -18,8 +22,8 @@ func httpErrorCode(err error) int {
 
 func responseErrorOnly(ctx *gin.Context, err error) {
     if err != nil {
-        ctx.JSON(httpErrorCode(err), gin.H{ "error": err.Error(), })
+        ctx.JSON(httpStatusCode(err), gin.H{ "error": err.Error(), })
     } else {
-        ctx.JSON(http.StatusOK, gin.H{ "error": nil })
+        ctx.JSON(httpStatusCode(nil), gin.H{ "error": nil })
     }
 }

@@ -8,7 +8,7 @@ import (
 
 type User_t struct {
     gorm.Model
-    ID              string
+    SignID          string
     PW              string
     Budget          uint
     WorkAddress     Coordinate_t    `gorm:"embedded"`

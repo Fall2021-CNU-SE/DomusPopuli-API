@@ -15,7 +15,7 @@ func CreateUser(id, pw string) error {
     }
 
     if res := db.Create(&User_t{
-        ID: id,
+        SignID: id,
         PW: pw,
     }); res.Error != nil {
         return res.Error
@@ -31,7 +31,7 @@ func SelectUser(id, pw string) (*User_t, error) {
     }
 
     var user User_t
-    res := db.Where("id = ? AND pw = ?", id, pw).First(&user)
+    res := db.Where("sign_id = ? AND pw = ?", id, pw).First(&user)
 
     if errors.Is(res.Error, gorm.ErrRecordNotFound) {
         return nil, exceptions.UserNotFound

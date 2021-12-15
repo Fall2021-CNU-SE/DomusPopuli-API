@@ -1,15 +1,15 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
+    "github.com/gin-gonic/gin"
 )
 
 func Serve() {
-	r := gin.Default()
+    r := gin.Default()
     
     r.POST("/signup", signUp)
     r.POST("/signin", signIn)
-    r.POST("/preference", preference)
+    r.POST("/preferences", preference)
     r.POST("/house", houseGen)
     r.POST("/checklist", writeCheckList)
 

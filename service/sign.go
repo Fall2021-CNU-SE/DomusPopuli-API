@@ -12,9 +12,10 @@ func SignUp(idpw domain.Sign_t) error {
     return nil
 }
 
-func SignIn(idpw domain.Sign_t) error {
-    if _, err := repository.SelectUser(idpw.Id, idpw.Pw); err != nil {
-        return err
+func SignIn(idpw domain.Sign_t) (int, error) {
+    user, err := repository.SelectUser(idpw.Id, idpw.Pw)
+    if err != nil {
+        return -1, err
     }
-    return nil
+    return int(user.ID), nil
 }
