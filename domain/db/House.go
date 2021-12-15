@@ -19,8 +19,8 @@ type House_t struct {
     Deposit     uint
 
     // Location of the House
-    Location    Coordinate_t
+    Location    Coordinate_t    `gorm:"embedded"`
 
     // Scores for Check List Entry
-    CheckList   CheckList_t
+    CheckList   CheckList_t     `gorm:"embedded"`
 }

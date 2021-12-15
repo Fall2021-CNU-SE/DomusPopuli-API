@@ -10,7 +10,8 @@ type User_t struct {
     gorm.Model
     ID              string
     PW              string
-    WorkAddress     Coordinate_t
-    PreferedFac     []string
-    PreferedEnv     CheckList_t
+    Budget          uint
+    WorkAddress     Coordinate_t    `gorm:"embedded"`
+    PreferedFac     string
+    PreferedEnv     CheckList_t     `gorm:"embedded"`
 }

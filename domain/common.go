@@ -1,5 +1,10 @@
 package domain
 
+type Sign_t struct {
+    Id  string  `json:"id"  binding:"required"`
+    Pw  string  `json:"pw"  binding:"required"`
+}
+
 type Coordinate_t struct {
     Long        string
     Lat         string

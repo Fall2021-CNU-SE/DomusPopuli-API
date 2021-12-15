@@ -15,21 +15,27 @@ func getDB() (*gorm.DB, error) {
 
         // Get connection
         dsn := "host=localhost user=hrk password=1q2w3e4r dbname=domus port=5432 sslmode=disable TimeZone=Asia/Seoul"
-        db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-        if err != nil { return nil, err }
+        if db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{}); err != nil {
+            return nil, err
+        }
 
-        // Clear Table
-        err = db.Migrator().DropTable(&User_t{})
-        if err != nil { return nil, err }
-        err = db.Migrator().DropTable(&House_t{})
-        if err != nil { return nil, err }
-
-        // Init Table
-        err = db.AutoMigrate(&User_t{})
-        if err != nil { return nil, err }
-        err = db.AutoMigrate(&House_t{})
-        if err != nil { return nil, err }
+        // Reset DB
+        if err = resetDB(db, &User_t{}, &House_t{}); err != nil {
+            return nil, err
+        }
     }
 
     return db, nil
+}
+
+func resetDB(db *gorm.DB, schemes ...interface{}) error {
+    for _, scheme := range schemes {
+        if err := db.Migrator().DropTable(scheme); err != nil {
+            return err
+        }
+        if err := db.AutoMigrate(scheme); err != nil {
+            return err
+        }
+    }
+    return nil
 }
