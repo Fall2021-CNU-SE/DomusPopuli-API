@@ -5,6 +5,7 @@ import (
     "net/http"
 
     "github.com/NamSoGong/DomusPopuli-API/exceptions"
+    "github.com/NamSoGong/DomusPopuli-API/domain/api"
     "github.com/gin-gonic/gin"
 )
 
@@ -33,5 +34,12 @@ func responseSignIn(ctx *gin.Context, err error, token string) {
     ctx.JSON(httpStatusCode(err), gin.H{
         "error": errMsg(err),
         "token": token,
+    })
+}
+
+func responseAllHouses(ctx *gin.Context, err error, houses []api.HouseSummary_t) {
+    ctx.JSON(httpStatusCode(err), gin.H{
+        "error": errMsg(err),
+        "houses": houses,
     })
 }

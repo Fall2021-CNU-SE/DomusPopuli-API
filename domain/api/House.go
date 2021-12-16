@@ -11,3 +11,8 @@ type MakeHouse_t struct {
     RoomSize        uint    `json:"roomsize"`
     IsRent          bool    `json:"isrent"`
 }
+
+type HouseSummary_t struct {
+    Name            string  `json:"name"`
+    TotalScore      float64 `json:"totalScore"`
+}

@@ -13,5 +13,7 @@ func Serve() {
     r.POST("/house", houseGen)
     r.POST("/checklist/:housepath", writeCheckList)
 
+    r.GET("/house/:token", getAllHouse)
+
     r.Run(":8080")
 }

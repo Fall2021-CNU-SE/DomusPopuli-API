@@ -114,3 +114,17 @@ func UpdateCheckList(name string, clist domain.CheckList_t, score float64) error
 
     return nil
 }
+
+func SelectAllHouse(sid uint) ([]House_t, error) {
+    db, err := getDB()
+    if err != nil {
+        return nil, err
+    }
+
+    houses := make([]House_t, 0)
+    if res := db.Model(&House_t{}).Where("owner = ?", sid).Find(&houses); res.Error != nil {
+        return nil, res.Error
+    }
+
+    return houses, nil
+}
