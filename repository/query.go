@@ -73,3 +73,18 @@ func CreateHouse(house *House_t) error {
 
     return nil
 }
+
+func UpdateCheckList(name string, clist domain.CheckList_t) error {
+    db, err := getDB()
+    if err != nil {
+        return err
+    }
+
+    if res := db.Model(&House_t{}).Where("name = ?", name).Updates(House_t{
+        CheckList: clist,
+    }); res.Error != nil {
+        return res.Error
+    }
+
+    return nil
+}

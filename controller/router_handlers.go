@@ -71,6 +71,17 @@ func houseGen(ctx *gin.Context) {
     responseErrorOnly(ctx, nil)
 }
 
-func writeCheckList(c *gin.Context) {
+func writeCheckList(ctx *gin.Context) {
+    var checklist api.CheckList_t
+    if err := ctx.ShouldBindJSON(&checklist); err != nil {
+        responseErrorOnly(ctx, err); return
+    }
 
+    houseName := ctx.Param("housepath")
+
+    if err := service.WriteCheckList(houseName, checklist.Checklist); err != nil {
+        responseErrorOnly(ctx, err); return
+    }
+
+    responseErrorOnly(ctx, nil)
 }

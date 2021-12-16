@@ -11,7 +11,7 @@ func Serve() {
     r.POST("/signin", signIn)
     r.POST("/preferences", preference)
     r.POST("/house", houseGen)
-    r.POST("/checklist", writeCheckList)
+    r.POST("/checklist/:housepath", writeCheckList)
 
     r.Run(":8080")
 }
