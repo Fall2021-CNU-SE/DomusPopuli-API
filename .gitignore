@@ -16,3 +16,6 @@
 
 # Build result
 DomusPopuli-API
+
+# Local testing
+local.sh
