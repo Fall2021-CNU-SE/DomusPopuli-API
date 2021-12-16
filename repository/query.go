@@ -128,3 +128,17 @@ func SelectAllHouse(sid uint) ([]House_t, error) {
 
     return houses, nil
 }
+
+func SelectHouse(sid uint, name string) (*House_t, error) {
+    db, err := getDB()
+    if err != nil {
+        return nil, err
+    }
+
+    var house House_t
+    if res := db.Model(&House_t{}).Where("owner = ? AND name = ?", sid, name).Find(&house); res.Error != nil {
+        return nil, res.Error
+    }
+
+    return &house, nil
+}

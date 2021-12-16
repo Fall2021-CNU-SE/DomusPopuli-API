@@ -6,10 +6,8 @@ import (
 )
 
 func getAllHouse(ctx *gin.Context) {
-    tok := ctx.Param("token")
-
     var sid uint
-    if err := getSid(tok, &sid); err != nil {
+    if err := getSid(ctx.Param("token"), &sid); err != nil {
         responseAllHouses(ctx, err, nil); return
     }
 
@@ -19,4 +17,14 @@ func getAllHouse(ctx *gin.Context) {
     }
 
     responseAllHouses(ctx, nil, houses)
+}
+
+func getHouseDetail(ctx *gin.Context) {
+    var sid uint
+    if err := getSid(ctx.Param("token"), &sid); err != nil {
+        responseHouseDetail(ctx, err, nil)
+    }
+
+    detail, err := GetHouseDetail(sid, ctx.Param("housepath"))
+    responseHouseDetail(ctx, err, detail)
 }

@@ -43,3 +43,8 @@ func responseAllHouses(ctx *gin.Context, err error, houses []api.HouseSummary_t)
         "houses": houses,
     })
 }
+
+func responseHouseDetail(ctx *gin.Context, err error, detail *api.HouseDetail_t) {
+    detail.Error = errMsg(err)
+    ctx.JSON(httpStatusCode(err), *detail)
+}

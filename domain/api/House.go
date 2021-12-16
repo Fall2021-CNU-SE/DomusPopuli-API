@@ -15,3 +15,16 @@ type HouseSummary_t struct {
     Name            string  `json:"name"`
     TotalScore      float64 `json:"totalScore"`
 }
+
+type HouseDetail_t struct {
+    Error           string                  `json:"error"`
+    TotalScore      float64                 `json:"totalScore"`
+    ChecklistScore  float64                 `json:"checklistScore"`
+    FacilityScore   float64                 `json:"facilityScore"`
+    Facilities      []FacilitySummary_t     `json:"facilities"`
+}
+
+type FacilitySummary_t struct {
+    Name            string  `json:"name"`
+    Address         string  `json:"address"`
+}
