@@ -9,6 +9,9 @@ import (
 type House_t struct {
     gorm.Model
 
+    // Owner of the house
+    Owner       uint
+
     // Name of the House
     Name        string
 

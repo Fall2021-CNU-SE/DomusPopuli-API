@@ -14,4 +14,5 @@ type User_t struct {
     WorkAddress     Coordinate_t    `gorm:"embedded"`
     PreferedFac     string
     PreferedEnv     CheckList_t     `gorm:"embedded"`
+    Houses          []House_t       `gorm:"foreignKey:Owner"`
 }
