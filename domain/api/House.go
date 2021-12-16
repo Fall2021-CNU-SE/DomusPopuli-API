@@ -1,6 +1,7 @@
 package api
 
 type MakeHouse_t struct {
+    Token           string  `json:"token" binding:"required"`
     Name            string  `json:"name"`
     Address1        string  `json:"address1"`
     Address2        string  `json:"address2"`
@@ -8,5 +9,5 @@ type MakeHouse_t struct {
     Maintenance     uint    `json:"maintenance"`
     RentalFee       uint    `json:"rentalfee"`
     RoomSize        uint    `json:"roomsize"`
-    LeaseOrRent     bool    `json:"leaseorrent"`
+    IsRent          bool    `json:"isrent"`
 }

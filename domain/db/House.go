@@ -8,22 +8,14 @@ import (
 
 type House_t struct {
     gorm.Model
-
-    // Owner of the house
     Owner       uint
-
-    // Name of the House
     Name        string
-
-    // Monthly Retal Fee
     RentalFee   uint
-
-    // Cash Deposited
     Deposit     uint
-
-    // Location of the House
+    Maintenance uint
+    RoomSize    uint
+    IsRent      bool
     Location    Coordinate_t    `gorm:"embedded"`
-
-    // Scores for Check List Entry
+    Address2    string
     CheckList   CheckList_t     `gorm:"embedded"`
 }

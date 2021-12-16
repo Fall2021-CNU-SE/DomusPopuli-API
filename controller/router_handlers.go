@@ -53,8 +53,22 @@ func preference(ctx *gin.Context) {
     responseErrorOnly(ctx, nil)
 }
 
-func houseGen(c *gin.Context) {
+func houseGen(ctx *gin.Context) {
+    var house api.MakeHouse_t
+    if err := ctx.ShouldBindJSON(&house); err != nil {
+        responseErrorOnly(ctx, err); return
+    }
 
+    var sid uint
+    if err := getSid(house.Token, &sid); err != nil {
+        responseErrorOnly(ctx, err); return
+    }
+
+    if err := service.HouseGen(sid, house); err != nil {
+        responseErrorOnly(ctx, err); return
+    }
+
+    responseErrorOnly(ctx, nil)
 }
 
 func writeCheckList(c *gin.Context) {

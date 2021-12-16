@@ -60,3 +60,16 @@ func UpdatePreferences(sid, budget uint, workAddr *domain.Coordinate_t, fac stri
 
     return nil
 }
+
+func CreateHouse(house *House_t) error {
+    db, err := getDB()
+    if err != nil {
+        return err
+    }
+
+    if res := db.Create(house); res.Error != nil {
+        return res.Error
+    }
+
+    return nil
+}
