@@ -9,7 +9,7 @@ import (
 )
 
 func HouseGen(sid uint, houseForm api.MakeHouse_t) error {
-    coords, err := AddressToCoordinate(houseForm.Address1)
+    coords, err := AddressToCoordinate(houseForm.Address)
     if err != nil {
         return err
     }
@@ -32,7 +32,6 @@ func HouseGen(sid uint, houseForm api.MakeHouse_t) error {
         Maintenance: houseForm.Maintenance,
         RoomSize: houseForm.RoomSize,
         IsRent: houseForm.IsRent,
-        Address2: houseForm.Address2,
         Location: *coords,
         EnvScore: score,
         CLScore: 0,
