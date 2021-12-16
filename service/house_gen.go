@@ -1,13 +1,25 @@
 package service
 
 import (
-    "github.com/NamSoGong/DomusPopuli-API/domain/db"
+    "strings"
+
     "github.com/NamSoGong/DomusPopuli-API/domain/api"
+    "github.com/NamSoGong/DomusPopuli-API/domain/db"
     "github.com/NamSoGong/DomusPopuli-API/repository"
 )
 
 func HouseGen(sid uint, houseForm api.MakeHouse_t) error {
     coords, err := AddressToCoordinate(houseForm.Address1)
+    if err != nil {
+        return err
+    }
+
+    user, err := repository.SelectUserBySID(sid)
+    if err != nil {
+        return err
+    }
+
+    score, err := CalcEnvScore(coords, strings.Split(user.PreferedFac, "/"))
     if err != nil {
         return err
     }
@@ -22,6 +34,8 @@ func HouseGen(sid uint, houseForm api.MakeHouse_t) error {
         IsRent: houseForm.IsRent,
         Address2: houseForm.Address2,
         Location: *coords,
+        EnvScore: score,
+        CLScore: 0,
     }); err != nil {
         return err
     }

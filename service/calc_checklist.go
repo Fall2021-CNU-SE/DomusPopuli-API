@@ -6,16 +6,6 @@ import (
     "github.com/NamSoGong/DomusPopuli-API/domain"
 )
 
-func Make() *domain.CheckList_t {
-    return &domain.CheckList_t{
-        H0: 1, H1: 1, H2: 1,
-        B0: 1, B1: 1, B2: 1,
-        K0: 1, K1: 1, K2: 1,
-        O0: 1, O1: 1, O2: 1,
-        E0: 1,
-    }
-}
-
 func CalcCheckList(prefs, scores domain.CheckList_t) float64 {
     refPref := reflect.ValueOf(prefs)
     refScore := reflect.ValueOf(scores)
@@ -31,7 +21,7 @@ func CalcCheckList(prefs, scores domain.CheckList_t) float64 {
 }
 
 func PrefWeight(prefs []string) *domain.CheckList_t {
-    clist := Make()
+    clist := &domain.CheckList_t{}
 
     for _, pref := range prefs {
         switch pref {

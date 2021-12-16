@@ -50,6 +50,24 @@ func SelectUser(id, pw string) (*User_t, error) {
     return &user, nil
 }
 
+func SelectUserBySID(sid uint) (*User_t, error) {
+    db, err := getDB()
+    if err != nil {
+        return nil, err
+    }
+
+    var user User_t
+    res := db.Where("id = ?", sid).First(&user)
+
+    if errors.Is(res.Error, gorm.ErrRecordNotFound) {
+        return nil, exceptions.UserNotFound
+    } else if res.Error != nil {
+        return nil, res.Error
+    }
+
+    return &user, nil
+}
+
 func UpdatePreferences(sid, budget uint, workAddr *domain.Coordinate_t, fac string, env domain.CheckList_t) error {
     db, err := getDB()
     if err != nil {
@@ -81,7 +99,7 @@ func CreateHouse(house *House_t) error {
     return nil
 }
 
-func UpdateCheckList(name string, clist domain.CheckList_t) error {
+func UpdateCheckList(name string, clist domain.CheckList_t, score float64) error {
     db, err := getDB()
     if err != nil {
         return err
@@ -89,6 +107,7 @@ func UpdateCheckList(name string, clist domain.CheckList_t) error {
 
     if res := db.Model(&House_t{}).Where("name = ?", name).Updates(House_t{
         CheckList: clist,
+        CLScore: score,
     }); res.Error != nil {
         return res.Error
     }

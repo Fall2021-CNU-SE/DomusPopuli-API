@@ -77,9 +77,14 @@ func writeCheckList(ctx *gin.Context) {
         responseErrorOnly(ctx, err); return
     }
 
+    var sid uint
+    if err := getSid(checklist.Token, &sid); err != nil {
+        responseErrorOnly(ctx, err); return
+    }
+
     houseName := ctx.Param("housepath")
 
-    if err := service.WriteCheckList(houseName, checklist.Checklist); err != nil {
+    if err := service.WriteCheckList(sid, houseName, checklist.Checklist); err != nil {
         responseErrorOnly(ctx, err); return
     }
 

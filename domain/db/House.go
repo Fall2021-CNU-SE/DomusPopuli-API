@@ -18,4 +18,6 @@ type House_t struct {
     Location    Coordinate_t    `gorm:"embedded"`
     Address2    string
     CheckList   CheckList_t     `gorm:"embedded"`
+    EnvScore    float64
+    CLScore     float64
 }
