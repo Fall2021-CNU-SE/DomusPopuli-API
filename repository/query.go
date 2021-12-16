@@ -18,6 +18,13 @@ func CreateUser(id, pw string) error {
     if res := db.Create(&User_t{
         SignID: id,
         PW: pw,
+        PreferedEnv: domain.CheckList_t{
+            H0: 1, H1: 1, H2: 1,
+            B0: 1, B1: 1, B2: 1,
+            K0: 1, K1: 1, K2: 1,
+            O0: 1, O1: 1, O2: 1,
+            E0: 1,
+        },
     }); res.Error != nil {
         return res.Error
     }
