@@ -9,21 +9,29 @@ import (
 )
 
 func httpStatusCode(err error) int {
-    if err == nil {
-        return http.StatusOK
+    switch {
+    case err == nil:                                return http.StatusOK
+    case errors.Is(err, exceptions.UserNotFound):   return http.StatusUnauthorized
+    default:                                        return http.StatusBadRequest
     }
+}
 
-    if errors.Is(err, exceptions.UserNotFound) {
-        return http.StatusUnauthorized
+func errMsg(err error) string {
+    switch {
+    case err != nil:    return err.Error()
+    default:            return "null"
     }
-
-    return http.StatusBadRequest
 }
 
 func responseErrorOnly(ctx *gin.Context, err error) {
-    if err != nil {
-        ctx.JSON(httpStatusCode(err), gin.H{ "error": err.Error(), })
-    } else {
-        ctx.JSON(httpStatusCode(nil), gin.H{ "error": nil })
-    }
+    ctx.JSON(httpStatusCode(err), gin.H{
+        "error": errMsg(err),
+    })
+}
+
+func responseSignIn(ctx *gin.Context, err error, token string) {
+    ctx.JSON(httpStatusCode(err), gin.H{
+        "error": errMsg(err),
+        "token": token,
+    })
 }
