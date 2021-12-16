@@ -3,8 +3,9 @@ package repository
 import (
     "errors"
 
-    "github.com/NamSoGong/DomusPopuli-API/exceptions"
+    "github.com/NamSoGong/DomusPopuli-API/domain"
     . "github.com/NamSoGong/DomusPopuli-API/domain/db"
+    "github.com/NamSoGong/DomusPopuli-API/exceptions"
     "gorm.io/gorm"
 )
 
@@ -40,4 +41,22 @@ func SelectUser(id, pw string) (*User_t, error) {
     }
 
     return &user, nil
+}
+
+func UpdatePreferences(sid, budget uint, workAddr *domain.Coordinate_t, fac string, env domain.CheckList_t) error {
+    db, err := getDB()
+    if err != nil {
+        return err
+    }
+
+    if res := db.Model(&User_t{}).Where("id = ?", sid).Updates(User_t{
+        Budget: budget,
+        WorkAddress: *workAddr,
+        PreferedFac: fac,
+        PreferedEnv: env,
+    }); res.Error != nil {
+        return res.Error
+    }
+
+    return nil
 }
